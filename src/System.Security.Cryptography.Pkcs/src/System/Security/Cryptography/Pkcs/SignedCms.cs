@@ -77,7 +77,9 @@ namespace System.Security.Cryptography.Pkcs
 
                 foreach (CertificateChoiceAsn choice in certChoices)
                 {
-                    coll.Add(new X509Certificate2(choice.Certificate.Value.ToArray()));
+                    // Skip non-certificate entries (attribute certs, etc.)
+                    if (choice.Certificate.HasValue)
+                        coll.Add(new X509Certificate2(choice.Certificate.Value.ToArray()));
                 }
 
                 return coll;

@@ -56,7 +56,7 @@ namespace Internal.Cryptography.Pal.AnyOS
             {
                 foreach (CertificateChoiceAsn certChoice in data.OriginatorInfo.CertificateSet)
                 {
-                    if (certChoice.Certificate != null)
+                    if (certChoice.Certificate.HasValue)
                     {
                         originatorCerts.Add(new X509Certificate2(certChoice.Certificate.Value.ToArray()));
                     }

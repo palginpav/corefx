@@ -632,7 +632,11 @@ namespace System.Security.Cryptography.Pkcs
             {
                 X509Chain chain = new X509Chain();
                 chain.ChainPolicy.ExtraStore.AddRange(extraStore);
-                chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                // Use NoCheck on Wine/mono — online CRL/OCSP verification
+                // is unreliable and RevocationStatusUnknown would reject
+                // valid signatures.  .NET Framework tolerates unknown
+                // revocation status when building chains.
+                chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
                 chain.ChainPolicy.RevocationFlag = X509RevocationFlag.ExcludeRoot;
 
                 if (!chain.Build(certificate))

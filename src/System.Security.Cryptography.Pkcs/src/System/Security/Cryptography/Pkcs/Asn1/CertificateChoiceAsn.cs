@@ -20,7 +20,6 @@ namespace System.Security.Cryptography.Pkcs.Asn1
     //   otherCertFormat OBJECT IDENTIFIER,
     //   otherCert ANY DEFINED BY otherCertFormat }
     //
-    // Except we only support public key certificates, so just trim the choice here.
     [StructLayout(LayoutKind.Sequential)]
     [Choice]
     internal struct CertificateChoiceAsn
@@ -28,5 +27,17 @@ namespace System.Security.Cryptography.Pkcs.Asn1
         [ExpectedTag(TagClass.Universal, (int)UniversalTagNumber.Sequence)]
         [AnyValue]
         public ReadOnlyMemory<byte>? Certificate;
+
+        [ExpectedTag(1)]
+        [AnyValue]
+        public ReadOnlyMemory<byte>? V1AttributeCertificate;
+
+        [ExpectedTag(2)]
+        [AnyValue]
+        public ReadOnlyMemory<byte>? V2AttributeCertificate;
+
+        [ExpectedTag(3)]
+        [AnyValue]
+        public ReadOnlyMemory<byte>? OtherCertificate;
     }
 }
